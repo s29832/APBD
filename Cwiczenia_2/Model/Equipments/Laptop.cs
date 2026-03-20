@@ -1,4 +1,4 @@
-﻿namespace Cwiczenia_2.Model;
+﻿namespace Cwiczenia_2.Model.Equipments;
 
 public class Laptop : Equipment
 {
