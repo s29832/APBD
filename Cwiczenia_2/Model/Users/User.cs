@@ -9,6 +9,8 @@ public abstract class User
     public string LastName { get; private set; }
     public UserType UserType { get; private set; }
     
+    public abstract int MaxLimit { get; }
+    
     protected User(string name, string lastName, UserType userType)
     {
         Name = name;
