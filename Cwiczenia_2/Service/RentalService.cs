@@ -11,132 +11,80 @@ public class RentalService
 {
     private readonly List<Rental> rentals = new();
     private readonly List<Equipment> equipments = new();
+    private readonly List<User> users = new();
+
+  
+    public void AddUser(User user) => users.Add(user);
+    public List<User> GetAllUsers() => users;
+    public User? GetUserById(Guid id) => users.FirstOrDefault(u => u.Id == id);
+
+
+    public void AddEquipment(Equipment equipment) => equipments.Add(equipment);
+    public List<Equipment> GetAllEquipments() => equipments;
+    public List<Equipment> GetAvailableEquipments() => equipments.Where(e => e.IsAvailable).ToList();
+    public Equipment? GetEquipmentById(Guid id) => equipments.FirstOrDefault(e => e.Id == id);
+    
+    public void RemoveEquipment(Equipment equipment) => equipments.Remove(equipment);
+    public void SetUnavailable(Guid id) 
+    { 
+        var eq = GetEquipmentById(id); 
+        if (eq != null) eq.setUnavailable(); 
+    }
+
 
     public void Rent(User user, Equipment equipment, int days)
     {
         if (!equipment.IsAvailable)
         {
-            Console.WriteLine($" {equipment.Name} is not available!");
-            return;
+            throw new InvalidOperationException($"{equipment.Name} is not available!");
         }
 
         int activeRent = rentals.Count(rental => rental.User == user && rental.ReturnDateReally == null);
-
         if (activeRent >= user.MaxLimit)
         {
-            Console.WriteLine($"{user.Name} has reached the limit of rentals!");
-            return;
+            throw new InvalidOperationException($"{user.Name} has reached the limit of rentals!");
         }
 
         var newRental = new Rental(user, equipment, days);
         rentals.Add(newRental);
         equipment.setUnavailable();
-        Console.WriteLine("Equipment rented!");
-
     }
 
-    public void Return(User user, Equipment equipment, DateTime returnDate)
+    public void Return(Guid rentalId, DateTime returnDate)
     {
-        var rental = rentals.FirstOrDefault(r =>
-            r.User == user &&
-            r.Equipment == equipment &&
-            r.ReturnDateReally == null);
-        if (rental == null)
+        var rental = GetRentalById(rentalId);
+        if (rental == null || rental.ReturnDateReally != null)
         {
-            Console.WriteLine("Error: Equipment already returned or not rented by this user!");
-            return;
+            throw new InvalidOperationException("Error: Equipment already returned or rental not found!");
         }
 
         int punishment = 0;
-
         if (returnDate > rental.ReturnDatePlanned)
         {
             int daysLate = (int)(returnDate - rental.ReturnDatePlanned).TotalDays;
             punishment = daysLate * 20;
-            Console.WriteLine($"Punishment: {punishment} zł");
         }
 
         rental.Equipment.setAvailable();
         rental.ReturnRegister(returnDate, punishment);
-
-        Console.WriteLine("Equipment returned!");
     }
     
-    public void AddEquipment(Equipment equipment)
+    public Rental? GetRentalById(Guid id) => rentals.FirstOrDefault(r => r.Id == id);
+    public List<Rental> GetRentals() => rentals;
+    public List<Rental> GetActiveRentals() => rentals.Where(r => r.ReturnDateReally == null).ToList();
+    public List<Rental> GetExpiredRentals() => rentals.Where(r => r.IsProlonged && r.ReturnDateReally == null).ToList();
+    public List<Rental> GetActiveByUser(User user) => rentals.Where(r => r.User == user && r.ReturnDateReally == null).ToList();
+
+    public string GetSummary()
     {
-        equipments.Add(equipment);
-    }
-
-    public void DisplayAllEquipment()
-    {
-        Console.WriteLine("\n EQUIPMENT LIST");
-        foreach (var eq in equipments)
-        {
-            Console.WriteLine($"- {eq}");
-        }
-    }
-
-    public void DisplayAvailableEquipment()
-    {
-        Console.WriteLine("\n EQUIPMENT AVAILABLE");
-        var available = equipments.Where(e => e.IsAvailable).ToList();
-
-        if (!available.Any())
-        {
-            Console.WriteLine("This equipment is not available.");
-            return;
-        }
-
-        foreach (var eq in available)
-        {
-            Console.WriteLine($"- {eq}");
-        }
-    }
-
-    public void DisplayUserActiveRentals(User user)
-    {
-        Console.WriteLine($"\n ACTIVE RENTALS  {user.Name}");
-        var active = rentals.Where(r => r.User == user && r.ReturnDateReally == null).ToList();
-
-        if (!active.Any())
-        {
-            Console.WriteLine("NO ACTIVE RENTALS!");
-            return;
-        }
-
-        foreach (var r in active)
-        {
-            Console.WriteLine($"- {r}");
-        }
-    }
-
-    public void DisplayOverdueRentals()
-    {
-        Console.WriteLine("\n PROLONGED RENTALS ");
-        var overdue = rentals.Where(r => r.IsProlonged && r.ReturnDateReally == null).ToList();
-
-        if (!overdue.Any())
-        {
-            Console.WriteLine("NO PROLONGED RENTALS!");
-            return;
-        }
-
-        foreach (var r in overdue)
-        {
-            Console.WriteLine($"- {r}");
-        }
-    }
-
-    public void GenerateSummaryReport(List<Equipment> allEquipment)
-    {
-        Console.WriteLine("\n=== RENTAL REPORT ===");
-        Console.WriteLine($"Total equipment count:    {allEquipment.Count}");
-        Console.WriteLine($"Available equipment:      {allEquipment.Count(e => e.IsAvailable)}");
-        Console.WriteLine($"Rented equipment:         {allEquipment.Count(e => !e.IsAvailable)}");
-        Console.WriteLine($"---");
-        Console.WriteLine($"Total rentals history:    {rentals.Count}");
-        Console.WriteLine($"Currently active rentals: {rentals.Count(r => r.ReturnDateReally == null)}");
-        Console.WriteLine($"Overdue rentals:          {rentals.Count(r => r.IsProlonged && r.ReturnDateReally == null)}");
-        Console.WriteLine("===============================\n");
+        return $@"
+            RENTAL REPORT
+            Total equipment count:    {equipments.Count}
+            Available equipment:      {equipments.Count(e => e.IsAvailable)}
+            Rented equipment:         {equipments.Count(e => !e.IsAvailable)}
+            ---
+            Total rentals history:    {rentals.Count}
+            Currently active rentals: {rentals.Count(r => r.ReturnDateReally == null)}
+            Overdue rentals:          {rentals.Count(r => r.IsProlonged && r.ReturnDateReally == null)}";
     }
 }
