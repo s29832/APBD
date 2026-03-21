@@ -20,4 +20,20 @@ public class Rental
         RentalDate = DateTime.Now;
         ReturnDatePlanned = RentalDate.AddDays(days);
     }
+
+    public bool IsProlonged {
+        get {
+            if (ReturnDateReally.HasValue)
+                return ReturnDateReally > ReturnDatePlanned;
+            else
+                return DateTime.Now > ReturnDatePlanned;
+        }
+    }
+    public void ReturnRegister(DateTime returnDate, int punishment)
+    {
+        ReturnDateReally = returnDate;
+        Punishment = punishment;
+    }
+    
+    
 }
