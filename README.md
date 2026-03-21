@@ -18,4 +18,8 @@ Aby uruchomić aplikację, potrzebujesz:
 1. Otwórz plik `.sln` lub plik projektu `.csproj` w IDE.
 2. Kliknij przycisk **Run** (zielony trójkąt) na górnym pasku narzędzi.
 
-# DECYZJE PROJEKTOWE
+## DECYZJE PROJEKTOWE
+
+
+## UWAGI
+W pewnym momencie branche Equipment, Rental, RentalService i Users zostaly zmergowane w jeden wspólny branch dla ulatwienia podziału INTERFEJS | MAIN | BACKEND
