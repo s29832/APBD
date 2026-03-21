@@ -22,4 +22,9 @@ public abstract class Equipment
     {
         IsAvailable = true;
     }
+    public override string ToString()
+    {
+        string status = IsAvailable ? "Available" : "Unavailable";
+        return $"{Name} - {status}";
+    }
 }
