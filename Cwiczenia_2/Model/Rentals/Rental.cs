@@ -34,6 +34,12 @@ public class Rental
         ReturnDateReally = returnDate;
         Punishment = punishment;
     }
+    public override string ToString()
+    {
+        string warning = IsProlonged && ReturnDateReally == null ? "[PROLONGED] " : "";
+    
+        return $"{warning}{Equipment.Name} prolonged by {User.Name} (Planned return: {ReturnDatePlanned:yyyy-MM-dd})";
+    }
     
     
 }
