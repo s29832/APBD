@@ -39,6 +39,10 @@ public class Rental
     public override string ToString()
     {
         string warning = IsProlonged && ReturnDateReally == null ? "[PROLONGED] " : "";
-        return $"[ID: {Id.ToString().Substring(0,8)}] {warning}{Equipment.Name} prolonged by {User.Name} (Planned return: {ReturnDatePlanned:yyyy-MM-dd})";
+        string penaltyInfo = Punishment > 0 ? $" [💸 PUNISHMENT: {Punishment} zł]" : "";
+        string returnInfo = ReturnDateReally.HasValue 
+            ? $"(RETURNED: {ReturnDateReally:yyyy-MM-dd})" 
+            : $"(PLANNED RETURN: {ReturnDatePlanned:yyyy-MM-dd})";
+        return $"[ID: {Id.ToString().Substring(0,8)}] {warning}{Equipment.Name} RENTED BY {User.Name} {returnInfo}{penaltyInfo}";
     }
 }

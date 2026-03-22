@@ -12,12 +12,11 @@ public class EqServ
     public void AddEquipment(Equipment equipment) => equipments.Add(equipment);
     public List<Equipment> GetAllEquipments() => equipments;
     public List<Equipment> GetAvailableEquipments() => equipments.Where(e => e.IsAvailable).ToList();
-    public Equipment? GetEquipmentById(Guid id) => equipments.FirstOrDefault(e => e.Id == id);
-    
-    public void RemoveEquipment(Equipment equipment) => equipments.Remove(equipment);
-    public void SetUnavailable(Guid id) 
+    public Equipment? GetEquipmentById(string id) => equipments.FirstOrDefault(e => e.Id.ToString().StartsWith(id));
+
+    public void SetUnavailable(string id) 
     { 
         var eq = GetEquipmentById(id); 
-        if (eq != null) eq.setUnavailable(); 
+        if (eq != null) eq.SetUnavailable(); 
     }
 }

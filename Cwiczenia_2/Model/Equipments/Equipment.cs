@@ -14,11 +14,11 @@ public abstract class Equipment
         IsAvailable = true; //domyslnie jest dostepny
         Id = Guid.NewGuid();
     }
-    public void setUnavailable()
+    public void SetUnavailable()
     {
         IsAvailable = false;
     }
-    public void setAvailable()
+    public void SetAvailable()
     {
         IsAvailable = true;
     }
