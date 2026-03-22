@@ -9,18 +9,14 @@ class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("^^^ LOADING RENTAL SERVICE SYS ^^^");
-        var service = new RentalService();
+        Console.WriteLine("^^^ Uruchamianie RENTAL SERVICE SYS ^^^");
+    
         
-        service.AddEquipment(new Laptop("ThinkPad T14", "Intel Core i5", "16GB"));
-        service.AddEquipment(new Laptop("MacBook Pro 16", "Apple M1 Pro", "16GB"));
-        service.AddEquipment(new Camera("Canon EOS 80D", "24", "18-55mm f/3.5-5.6"));
-        service.AddEquipment(new Projector("LG 4K", "LG", "UHD 1080p"));
+        var equipmentService = new EqServ();
+        var userService = new UserServ();
+        var rentalService = new RentalService(equipmentService);
         
-        service.AddUser(new Student("Jan", "Kowalski"));
-        service.AddUser(new Employee("Piotr", "Nowak"));
-        
-        
-        Console.WriteLine("SERVICE CLOSED");
+        equipmentService.AddEquipment(new Laptop("ThinkPad T14", "Intel Core i5", "16GB"));
+        userService.AddUser(new Student("Jan", "Kowalski"));
     }
 }
