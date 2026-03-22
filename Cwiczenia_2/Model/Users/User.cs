@@ -18,4 +18,9 @@ public abstract class User
         Id = Guid.NewGuid();
         UserType = userType;
     }
+
+    public override string ToString()
+    {
+        return $"{Name} {LastName} [Limit sprzetu: {MaxLimit}]";
+    }
 }

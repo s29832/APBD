@@ -14,12 +14,17 @@ public abstract class Equipment
         IsAvailable = true; //domyslnie jest dostepny
         Id = Guid.NewGuid();
     }
-    public void Rented()
+    public void SetUnavailable()
     {
         IsAvailable = false;
     }
-    public void Returned()
+    public void SetAvailable()
     {
         IsAvailable = true;
+    }
+    public override string ToString()
+    {
+        string status = IsAvailable ? "Available" : "Unavailable";
+        return $"{Name} - {status}";
     }
 }
