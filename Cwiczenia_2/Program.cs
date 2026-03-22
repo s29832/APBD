@@ -12,6 +12,8 @@ class Program
         var userService = new UserServ();
         var rentalService = new RentServ(equipmentService);
         
+        Console.WriteLine("Welcome to the rental system!");
+        
         equipmentService.AddEquipment(new Laptop("ThinkPad T14", "Intel Core i5", "16GB"));
         equipmentService.AddEquipment(new Laptop("MacBook Pro 16", "Apple M1 Pro", "32GB"));
         equipmentService.AddEquipment(new Laptop("Dell XPS 15", "Intel Core i7", "16GB"));
