@@ -22,9 +22,6 @@ Aby uruchomić aplikację, potrzebujesz:
 2. Kliknij przycisk **Run** (zielony trójkąt) na górnym pasku narzędzi.
 
 ## DECYZJE PROJEKTOWE
-# System Wypożyczalni Sprzętu (Rental Service System)
-
-## Architektura i Decyzje Projektowe
 
 Aplikacja została podzielona na trzy warstwy i została zaprojketowana na podstawie analogii do świata reczywistego przez co każda klasa ma swoją odpowiedzialność, żadna z klas nie jest od siebie bezpośrednio zależne. Przekazywanie elementów przez konstruktor do klas serwisowych pozwala na operowanie na tych samych instancjach.
 
