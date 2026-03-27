@@ -12,7 +12,7 @@ Aby uruchomić aplikację, potrzebujesz:
 
 ### OPCJA TERMINAL
 1. Sklonuj to repozytorium na swój dysk lokalny:
-   `git clone [LINK DO REPO]'
+   `git clone https://github.com/s29832/APBD.git'
 2. Otwórz terminal i przejdź do folderu z projektem.
 3. Wpisz komendę `dotnet run`
 4. Aplikacja uruchomi interaktywne menu w konsoli
@@ -23,10 +23,10 @@ Aby uruchomić aplikację, potrzebujesz:
 
 ## DECYZJE PROJEKTOWE
 
-Aplikacja została podzielona na trzy warstwy i została zaprojketowana na podstawie analogii do świata reczywistego przez co każda klasa ma swoją odpowiedzialność, żadna z klas nie jest od siebie bezpośrednio zależne. Przekazywanie elementów przez konstruktor do klas serwisowych pozwala na operowanie na tych samych instancjach.
+Aplikacja została podzielona na trzy warstwy i została zaprojektowana na podstawie analogii do świata reczywistego przez co każda klasa ma swoją odpowiedzialność, a żadna z klas nie jest od siebie bezpośrednio zależna. Przekazywanie elementów przez konstruktor do klas serwisowych pozwala na operowanie na tych samych instancjach.
 
 1. **Warstwa Modeli**
-W folderze model klasy takie jak `Equipment`, `User` czy `Rental` są tylko kontenerami na dane. Mają swoje ID oraz znają swój własny stan i podstawią się przedstawić ale nie ma w nich żadnej logiki biznesowej. W projekcie wykorzystano dziedziczenie tam, gdzie naturalnie wynikało (np. bazowa klasa abstrakcyjna `Equipment` i dziedziczące po niej `Laptop`, `Camera`, `Projector`) - wszystkie mają cechy Equipment.
+W folderze model, klasy takie jak `Equipment`, `User` czy `Rental` są tylko kontenerami na dane. Mają swoje ID oraz znają swój własny stan i podstawią się przedstawić, ale nie ma w nich żadnej logiki biznesowej. W projekcie wykorzystano dziedziczenie tam, gdzie to naturalnie wynikało z ich funkcjonalnosci (np. bazowa klasa abstrakcyjna `Equipment` i dziedziczące po niej `Laptop`, `Camera`, `Projector`) - wszystkie mają cechy Equipment.
 Klasa Rental to interpretacja fizycznego papieru wypożyczenia. Papier taki powinien zawierać informacje takie jak kto, co, kiedy. Na podstawie papieru powinno dać się wyczytać czy wypożyczenie przekroczyło termin.
 
 2. **Warstwa Serwisów**
